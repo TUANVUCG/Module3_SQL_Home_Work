@@ -133,12 +133,10 @@ GROUP BY C.name
 ORDER BY Avg_Point DESC;
 
 -- Đưa ra khóa học có điểm trung bình cao nhất
-SELECT C.id, C.name, F.Avg_Point
-FROM course C
-JOIN findAVG F
-ON C.name = F.name
-ORDER BY F.Avg_Point DESC
+SELECT *
+FROM findAVG
 LIMIT 1;
+
 
 
 
