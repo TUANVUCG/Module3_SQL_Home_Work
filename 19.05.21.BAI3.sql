@@ -1,4 +1,5 @@
 CREATE DATABASE BT3_19_05_21;
+DROP DATABASE BT3_19_05_21;
 
 USE BT3_19_05_21;
 
@@ -20,13 +21,31 @@ Email VARCHAR (50));
 CREATE TABLE ClassStudent(
 StudentID INT ,
 ClassID INT,
-PRIMARY KEY  (StudentID, ClassID));
+PRIMARY KEY  (StudentID, ClassID), 
+CONSTRAINT FK_StudentID_CS FOREIGN KEY (StudentID) REFERENCES student(StudentID),
+CONSTRAINT FK_ClassID_CS FOREIGN KEY (ClassID) REFERENCES class(ClassID))
+;
 
+DROP TABLE Mark;
 CREATE TABLE Mark(
-Mark FLOAT,
 SubjectID INT,
 StudentID INT,
-PRIMARY KEY (StudentID, SubjectID));
+Mark FLOAT,
+PRIMARY KEY (SubjectID, StudentID),
+CONSTRAINT FK_StudentID_M FOREIGN KEY (StudentID) REFERENCES student(StudentID),
+CONSTRAINT FK_Subject_M FOREIGN KEY (SubjectID) REFERENCES subject(SubjectID));
+
+SET FOREIGN_KEY_CHECKS = 0;
+INSERT INTO Mark
+VALUES (1, 1, 8),
+       (2, 1, 4),
+       (1, 2, 9),
+       (1, 3, 7),
+       (1, 4, 3),
+       (2, 5, 5),
+       (3, 3, 8),
+       (3, 5, 1),
+       (2, 4, 3);
 
 -- 1. Hien thi danh sach tat ca cac hoc vien (danh sach phai sap xep theo ten hoc vien) 
 SELECT*
@@ -117,6 +136,15 @@ ALTER TABLE student
 ADD CONSTRAINT Age
 CHECK (Age>15 OR Age<50);
 -- 14.Loai bo tat ca quan he giua cac bang
+ALTER TABLE classstudent
+DROP FOREIGN KEY FK_StudentID_CS,
+DROP FOREIGN KEY FK_ClassID_CS;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+ALTER TABLE mark
+DROP FOREIGN KEY FK_StudentID_M,
+DROP FOREIGN KEY FK_Subject_M;
 
 -- 15.Xoa hoc vien co StudentID la 1
 DELETE FROM student
@@ -125,7 +153,11 @@ WHERE student.StudentID = 1;
 -- 16.Trong bang Student them mot column Status co kieu du lieu la Bit va co gia tri Default la 1
 ALTER TABLE student
 ADD Status BIT DEFAULT 1;
+
 -- 17.Cap nhap gia tri Status trong bang Student thanh 1
+SET SQL_SAFE_UPDATES = 0;
+UPDATE student
+SET Status = 1;
 
 
 
