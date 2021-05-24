@@ -132,11 +132,12 @@ ON C.id = P.course_id
 GROUP BY C.name
 ORDER BY Avg_Point DESC;
 
+
 -- Đưa ra khóa học có điểm trung bình cao nhất
 SELECT *
 FROM findAVG
 LIMIT 1;
 
 
-
+	
 
